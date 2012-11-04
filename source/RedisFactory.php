@@ -18,7 +18,7 @@ final class RedisFactory {
             throw new \InvalidArgumentException();
         }
 
-        $Redis = new PhpRedis();
+        $Redis = new Redis();
         $Redis->setHost($config['host'])
             ->setPort($config['port']);
         (isset($config['connect_timeout'])) && $Redis->setConnectTimeout($config['connect_timeout']);
