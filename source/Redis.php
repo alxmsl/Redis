@@ -404,6 +404,26 @@ final class Redis extends \Redis {
     }
 
     /**
+     * Get key bit
+     * @param string $key key
+     * @param int $offset bit offset
+     * @return int bit value at the offset
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function getbit($key, $offset) {
+        $offset = (int) $offset;
+        try {
+            $result = $this->getRedis()->getBit($key, $offset);
+            if ($result !== false) {
+                return $result;
+            }
+            throw new RedisConnectException();
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Set key bit
      * @param string $key key
      * @param int $offset bit offset
