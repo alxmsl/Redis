@@ -386,6 +386,24 @@ final class Redis extends \Redis {
     }
 
     /**
+     * Get string length of a key
+     * @param string $key key
+     * @return int key value length
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function strlen($key) {
+        try {
+            $result = $this->getRedis()->strlen($key);
+            if ($result !== false) {
+                return $result;
+            }
+            throw new RedisConnectException();
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Set key bit
      * @param string $key key
      * @param int $offset bit offset
