@@ -204,6 +204,7 @@ final class Redis extends \Redis {
     /**
      * Increment key value
      * @param string $key key
+     * @param int $value value for increment
      * @return int current value
      * @throws RedisConnectException exception on connection to redis instance
      */
@@ -213,6 +214,28 @@ final class Redis extends \Redis {
             $result = ($value > 1)
                 ? $this->getRedis()->incrBy($key, $value)
                 : $this->getRedis()->incr($key);
+            if ($result !== false) {
+                return $result;
+            }
+            throw new RedisConnectException();
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Decrement key value
+     * @param string $key key
+     * @param int $value value for increment
+     * @return int current value
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function decr($key, $value = 1) {
+        $value = (int) $value;
+        try {
+            $result = ($value > 1)
+                ? $this->getRedis()->decrBy($key, $value)
+                : $this->getRedis()->decr($key);
             if ($result !== false) {
                 return $result;
             }
