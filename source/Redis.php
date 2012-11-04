@@ -265,6 +265,24 @@ final class Redis extends \Redis {
     }
 
     /**
+     * Get multiple keys values
+     * @param array $keys keys
+     * @return array values
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function mget(array $keys) {
+        try {
+            $result = $this->getRedis()->mGet($keys);
+            if ($result !== false) {
+                return array_combine($keys, $result);
+            }
+            throw new RedisConnectException();
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Set key value
      * @param string $key key
      * @param mixed $value value
