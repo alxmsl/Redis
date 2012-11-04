@@ -447,6 +447,21 @@ final class Redis extends \Redis {
     }
 
     /**
+     * Set time of life for the key
+     * @param string $key key
+     * @param int $timestamp unix timestamp of time of death
+     * @return bool operation result. If false timestamp cound not be set, or key not found
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function expireat($key, $timestamp) {
+        try {
+            return $this->getRedis()->expireat($key, $timestamp);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Get ttl of the key
      * @param string $key key
      * @return int|bool ttl in milliseconds or false, if ttl is not set or key not found
