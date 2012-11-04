@@ -264,6 +264,21 @@ final class Redis extends \Redis {
     }
 
     /**
+     * Set key value if not exists
+     * @param string $key key
+     * @param mixed $value value
+     * @return bool returns true, if operation complete succesfull, else false
+     * @throws RedisConnectException
+     */
+    public function setnx($key, $value) {
+        try {
+            return $this->getRedis()->setnx($key, $value);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Set key bit
      * @param string $key key
      * @param int $offset bit offset
