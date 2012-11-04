@@ -205,6 +205,7 @@ final class Redis extends \Redis {
      * Increment key value
      * @param string $key key
      * @return int current value
+     * @throws RedisConnectException exception on connection to redis instance
      */
     public function incr($key, $value = 1) {
         $value = (int) $value;
@@ -225,6 +226,8 @@ final class Redis extends \Redis {
      * Get key value
      * @param string $key key
      * @return mixed key value
+     * @throws RedisConnectException exception on connection to redis instance
+     * @throws RedisKeyNotFoundException when key not found
      */
     public function get($key) {
         try {
@@ -239,11 +242,34 @@ final class Redis extends \Redis {
     }
 
     /**
+     * Set key value
+     * @param string $key key
+     * @param mixed $value value
+     * @param int $timeout ttl timeout in milliseconds
+     * @return bool operation result
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function set($key, $value, $timeout = 0) {
+        try {
+            $result = ($timeout == 0)
+                ? $this->getRedis()->set($key, $value)
+                : $this->getRedis()->psetex($key, $timeout, $value);
+            if ($result !== false) {
+                return $result;
+            }
+            throw new RedisConnectException();
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Set key bit
      * @param string $key key
      * @param int $offset bit offset
      * @param int $value bit value. May be 0 or 1
      * @return int bit value before operation complete
+     * @throws RedisConnectException exception on connection to redis instance
      */
     public function setbit($key, $offset, $value) {
         $offset = (int) $offset;
@@ -264,6 +290,8 @@ final class Redis extends \Redis {
      * @param string $sha SHA1 string of Lua code
      * @param array $arguments array of Lua script arguments
      * @return mixed code execution result
+     * @throws RedisConnectException exception on connection to redis instance
+     * @throws RedisScriptExecutionException when script execution faled
      */
     public function evalSha($sha, array $arguments = array()) {
         try {
