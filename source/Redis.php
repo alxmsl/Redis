@@ -246,6 +246,25 @@ final class Redis extends \Redis {
     }
 
     /**
+     * Append string value
+     * @param string $key key
+     * @param string $value appended value
+     * @return int length of a key after append
+     * @throws RedisConnectException
+     */
+    public function append($key, $value) {
+        try {
+            $result = $this->getRedis()->append($key, $value);
+            if ($result !== false) {
+                return $result;
+            }
+            throw new RedisConnectException();
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Get key value
      * @param string $key key
      * @return mixed key value
