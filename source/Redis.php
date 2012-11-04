@@ -305,6 +305,21 @@ final class Redis extends \Redis {
     }
 
     /**
+     * GetSet implementation
+     * @param string $key key
+     * @param mixed $value value
+     * @return bool|mixed previous value of a key. If key did not set, method returns false
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function getset($key, $value) {
+        try {
+            return $this->getRedis()->getSet($key, $value);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Set key value if not exists
      * @param string $key key
      * @param mixed $value value
