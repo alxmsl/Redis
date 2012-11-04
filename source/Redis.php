@@ -297,6 +297,20 @@ final class Redis extends \Redis {
     }
 
     /**
+     * Check if key exists
+     * @param string $key key
+     * @return bool check result
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function exists($key) {
+        try {
+            return $this->getRedis()->exists($key);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Set key bit
      * @param string $key key
      * @param int $offset bit offset
