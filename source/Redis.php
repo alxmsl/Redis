@@ -7,7 +7,7 @@ namespace Redis\Client;
  * @author alxmsl
  * @date 11/1/12
  */
-final class Redis extends \Redis {
+final class Redis implements RedisInterface {
     /**
      * @var string redis instance hostname
      */
