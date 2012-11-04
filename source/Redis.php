@@ -404,6 +404,21 @@ final class Redis extends \Redis {
     }
 
     /**
+     * Get ttl of the key
+     * @param string $key key
+     * @return int|bool ttl in milliseconds or false, if ttl is not set or key not found
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function ttl($key) {
+        try {
+            $result = $this->getRedis()->pttl($key);
+            return ($result != -1) ? $result : false;
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Get key bit
      * @param string $key key
      * @param int $offset bit offset
