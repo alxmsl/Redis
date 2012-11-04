@@ -19,6 +19,9 @@ final class Autoloader {
      * @var array array of available classes
      */
     private static $classes = array(
+        'Redis\\Autoloader'             => 'Autoloader.php',
+        'Redis\\Client\\Redis'          => 'Redis.php',
+        'Redis\\Client\\RedisFactory'   => 'RedisFactory.php',
     );
 
     /**
