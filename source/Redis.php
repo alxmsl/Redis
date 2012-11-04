@@ -414,6 +414,36 @@ final class Redis extends \Redis {
     }
 
     /**
+     * Rename key
+     * @param string $source current key name
+     * @param string $destination needed key name
+     * @return bool operation result. If false, source key not found
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function rename($source, $destination) {
+        try {
+            return $this->getRedis()->rename($source, $destination);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Rename key if needed key name was not
+     * @param string $source current key name
+     * @param string $destination needed key name
+     * @return bool operation result. If false, source key not found or needed key name found
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function renamenx($source, $destination) {
+        try {
+            return $this->getRedis()->renamenx($source, $destination);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
      * Get string length of a key
      * @param string $key key
      * @return int key value length
