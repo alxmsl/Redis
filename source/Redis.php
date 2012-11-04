@@ -324,15 +324,14 @@ final class Redis extends \Redis {
     }
 
     /**
-     * GetSet implementation
-     * @param string $key key
-     * @param mixed $value value
-     * @return bool|mixed previous value of a key. If key did not set, method returns false
+     * Set multiple key values
+     * @param array $values key and values
+     * @return bool operation result
      * @throws RedisConnectException exception on connection to redis instance
      */
-    public function getset($key, $value) {
+    public function mset(array $values) {
         try {
-            return $this->getRedis()->getSet($key, $value);
+            return $this->getRedis()->mset($values);
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -348,6 +347,35 @@ final class Redis extends \Redis {
     public function setnx($key, $value) {
         try {
             return $this->getRedis()->setnx($key, $value);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Set multiple key values
+     * @param array $values key and values
+     * @return bool operation result
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function msetnx(array $values) {
+        try {
+            return $this->getRedis()->msetnx($values);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * GetSet implementation
+     * @param string $key key
+     * @param mixed $value value
+     * @return bool|mixed previous value of a key. If key did not set, method returns false
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function getset($key, $value) {
+        try {
+            return $this->getRedis()->getSet($key, $value);
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -413,6 +441,20 @@ final class Redis extends \Redis {
         try {
             $result = $this->getRedis()->pttl($key);
             return ($result != -1) ? $result : false;
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Remove ttl from the key
+     * @param string $key key
+     * @return bool if true ttl was removed successful, if false ttl did not set, or key not found
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function persist($key) {
+        try {
+            return $this->getRedis()->persist($key);
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
