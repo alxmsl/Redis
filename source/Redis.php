@@ -268,11 +268,29 @@ final class Redis extends \Redis {
      * @param string $key key
      * @param mixed $value value
      * @return bool returns true, if operation complete succesfull, else false
-     * @throws RedisConnectException
+     * @throws RedisConnectException exception on connection to redis instance
      */
     public function setnx($key, $value) {
         try {
             return $this->getRedis()->setnx($key, $value);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Delete key or keys
+     * @param string|array $keys key or keys array
+     * @return int count of deleted keys
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function delete($keys) {
+        try {
+            $result = $this->getRedis()->delete($keys);
+            if ($result !== false) {
+                return $result;
+            }
+            throw new RedisConnectException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
