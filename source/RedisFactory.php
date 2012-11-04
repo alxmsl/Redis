@@ -13,7 +13,7 @@ final class RedisFactory {
      * @param array $config array configuration
      * @throws \InvalidArgumentException
      */
-    public static function createPhpRedisByConfig(array $config) {
+    public static function createRedisByConfig(array $config) {
         if (!isset($config['host']) || !isset($config['port'])) {
             throw new \InvalidArgumentException();
         }
