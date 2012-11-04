@@ -504,6 +504,33 @@ final class Redis extends \Redis {
 
     /**
      * Evaluate Lua code
+     * @param string $code string of Lua code
+     * @param array $arguments array of Lua script arguments
+     * @return mixed code execution result
+     * @throws RedisConnectException exception on connection to redis instance
+     * @throws RedisScriptExecutionException when script execution faled
+     */
+    public function evaluate($code, array $arguments = array()) {
+        try {
+            if (empty($arguments)) {
+                $result = $this->getRedis()->eval($code);
+            } else {
+                $result = $this->getRedis()->eval($code, $arguments, count($arguments));
+            }
+
+            $lastError = $this->getRedis()->getLastError();
+            $this->getRedis()->clearLastError();
+            if (is_null($lastError)) {
+                return $result;
+            }
+            throw new RedisScriptExecutionException($lastError);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Evaluate Lua code by hash
      * @param string $sha SHA1 string of Lua code
      * @param array $arguments array of Lua script arguments
      * @return mixed code execution result
