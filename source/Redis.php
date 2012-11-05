@@ -615,6 +615,111 @@ final class Redis implements RedisInterface {
             throw new RedisConnectException();
         }
     }
+
+    /**
+     * Add member to the set
+     * @param string $key key
+     * @param mixed $member set member
+     * @return int count of added members
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function sadd($key, $member) {
+        try {
+            $result = $this->getRedis()->sAdd($key, $member);
+            if ($result !== false) {
+                return $result;
+            }
+            throw new RedisConnectException();
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Pop (remove and return) a random member from the set
+     * @param string $key key
+     * @return mixed set member
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function spop($key) {
+        try {
+            return $this->getRedis()->sPop($key);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Return random member from the set
+     * @param string $key key
+     * @return mixed set member
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function srandmember($key) {
+        try {
+            return $this->getRedis()->sRandMember($key);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Returns size of the set
+     * @param string $key set
+     * @return int members count of the set
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function scard($key) {
+        try {
+            return $this->getRedis()->sCard($key);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Check that member is a member of the set
+     * @param string $key key
+     * @param mixed $member member
+     * @return bool check result
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function sismembers($key, $member) {
+        try {
+            return $this->getRedis()->sIsMember($key);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Returns all members of the set
+     * @param string $key key
+     * @return array all members of the set
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function smembers($key) {
+        try {
+            return $this->getRedis()->sMembers($key);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
+
+    /**
+     * Remove member from the set
+     * @param string $key key
+     * @param mixed $member set member
+     * @return int count of removed elements
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function srem($key, $member) {
+        try {
+            return $this->getRedis()->sRem($key);
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
 }
 
 class PhpRedisException extends \Exception {}

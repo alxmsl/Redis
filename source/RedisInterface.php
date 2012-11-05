@@ -210,4 +210,63 @@ interface RedisInterface {
      * @throws RedisScriptExecutionException when script execution faled
      */
     public function evalSha($sha, array $arguments = array());
+
+    /**
+     * Add member to the set
+     * @param string $key key
+     * @param mixed $member set member
+     * @return int count of added members
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function sadd($key, $member);
+
+    /**
+     * Pop (remove and return) a random member from the set
+     * @param string $key key
+     * @return mixed set member
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function spop($key);
+
+    /**
+     * Return random member from the set
+     * @param string $key key
+     * @return mixed set member
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function srandmember($key);
+
+    /**
+     * Returns size of the set
+     * @param string $key set
+     * @return int members count of the set
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function scard($key);
+
+    /**
+     * Check that member is a member of the set
+     * @param string $key key
+     * @param mixed $member member
+     * @return bool check result
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function sismembers($key, $member);
+
+    /**
+     * Returns all members of the set
+     * @param string $key key
+     * @return array all members of the set
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function smembers($key);
+
+    /**
+     * Remove member from the set
+     * @param string $key key
+     * @param mixed $member set member
+     * @return int count of removed elements
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function srem($key, $member);
 }
