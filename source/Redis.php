@@ -95,7 +95,7 @@ final class Redis implements RedisInterface {
      * Setter of connection timeout parameter
      * @param float $connectTimeout connection timeout value
      * @throws \InvalidArgumentException
-     * @return PhpAutoload self
+     * @return Redis self
      */
     public function setConnectTimeout($connectTimeout) {
         $this->connectTimeout = (float) $connectTimeout;
@@ -117,7 +117,7 @@ final class Redis implements RedisInterface {
      * Setter of number of connection tries
      * @param int $connectTries connection tries count
      * @throws \InvalidArgumentException
-     * @return PhpAutoload self
+     * @return Redis self
      */
     public function setConnectTries($connectTries) {
         $this->connectTries = (int) $connectTries;
@@ -139,7 +139,7 @@ final class Redis implements RedisInterface {
      * Setter for redis instance hostname or ip address
      * @param string $host hostname or ip address
      * @throws \InvalidArgumentException
-     * @return PhpAutoload self
+     * @return Redis self
      */
     public function setHost($host) {
         $this->host = (string) $host;
@@ -161,7 +161,7 @@ final class Redis implements RedisInterface {
      * Setter of redis instance connection port
      * @param int $port redis instance connection port
      * @throws \InvalidArgumentException
-     * @return PhpAutoload self
+     * @return Redis self
      */
     public function setPort($port) {
         $this->port = $port;
@@ -182,7 +182,7 @@ final class Redis implements RedisInterface {
     /**
      * Use persistent connection or not
      * @param bool $persistent if is set to true, pconnect will use, overwise not
-     * @return PhpAutoload self
+     * @return Redis self
      */
     public function setPersistent($persistent) {
         $this->persistent = (bool) $persistent;
