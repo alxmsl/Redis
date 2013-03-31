@@ -217,7 +217,7 @@ final class Redis implements RedisInterface {
             if ($result !== false) {
                 return $result;
             }
-            throw new RedisConnectException();
+            throw new RedisImpossibleValueException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -239,7 +239,7 @@ final class Redis implements RedisInterface {
             if ($result !== false) {
                 return $result;
             }
-            throw new RedisConnectException();
+            throw new RedisImpossibleValueException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -258,7 +258,7 @@ final class Redis implements RedisInterface {
             if ($result !== false) {
                 return $result;
             }
-            throw new RedisConnectException();
+            throw new RedisImpossibleValueException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -295,7 +295,7 @@ final class Redis implements RedisInterface {
             if ($result !== false) {
                 return array_combine($keys, $result);
             }
-            throw new RedisConnectException();
+            throw new RedisImpossibleValueException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -317,7 +317,7 @@ final class Redis implements RedisInterface {
             if ($result !== false) {
                 return $result;
             }
-            throw new RedisConnectException();
+            throw new RedisImpossibleValueException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -393,7 +393,7 @@ final class Redis implements RedisInterface {
             if ($result !== false) {
                 return $result;
             }
-            throw new RedisConnectException();
+            throw new RedisImpossibleValueException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -455,7 +455,7 @@ final class Redis implements RedisInterface {
             if ($result !== false) {
                 return $result;
             }
-            throw new RedisConnectException();
+            throw new RedisImpossibleValueException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -534,7 +534,7 @@ final class Redis implements RedisInterface {
             if ($result !== false) {
                 return $result;
             }
-            throw new RedisConnectException();
+            throw new RedisImpossibleValueException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -552,7 +552,11 @@ final class Redis implements RedisInterface {
         $offset = (int) $offset;
         $value = (int) (bool) $value;
         try {
-            return (int) $this->getRedis()->setBit($key, $offset, $value);
+            $result = $this->getRedis()->setBit($key, $offset, $value);
+            if ($result !== false) {
+                return $result;
+            }
+            throw new RedisImpossibleValueException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -625,7 +629,7 @@ final class Redis implements RedisInterface {
             if ($result !== false) {
                 return $result;
             }
-            throw new RedisConnectException();
+            throw new RedisImpossibleValueException();
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
@@ -724,3 +728,4 @@ final class RedisTriesOverConnectException extends RedisConnectException {}
 final class RedisNotConfiguredException extends PhpRedisException {}
 final class RedisKeyNotFoundException extends PhpRedisException {}
 final class RedisScriptExecutionException extends PhpRedisException {}
+final class RedisImpossibleValueException extends PhpRedisException {}
