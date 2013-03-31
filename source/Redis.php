@@ -552,11 +552,7 @@ final class Redis implements RedisInterface {
         $offset = (int) $offset;
         $value = (int) (bool) $value;
         try {
-            $result = $this->getRedis()->setBit($key, $offset, $value);
-            if ($result !== false) {
-                return $result;
-            }
-            throw new RedisConnectException();
+            return (int) $this->getRedis()->setBit($key, $offset, $value);
         } catch (\RedisException $ex) {
             throw new RedisConnectException();
         }
