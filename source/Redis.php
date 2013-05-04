@@ -720,6 +720,24 @@ final class Redis implements RedisInterface {
             throw new RedisConnectException();
         }
     }
+
+    /**
+     * Create difference set
+     * @param string $destination key for result set
+     * @param array $sources source keys
+     * @return int size of result set
+     * @throws RedisConnectException exception on connection to redis instance
+     */
+    public function sdiffstore($destination, array $sources) {
+        try {
+            return call_user_func_array(array(
+                $this->getRedis(),
+                'sDiffStore',
+            ), array_merge(array($destination), $sources));
+        } catch (\RedisException $ex) {
+            throw new RedisConnectException();
+        }
+    }
 }
 
 class PhpRedisException extends \Exception {}
